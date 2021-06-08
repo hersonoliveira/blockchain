@@ -7,7 +7,30 @@ chain_bp = Blueprint("chain", __name__, url_prefix="/chain")
 
 @mine_bp.route("/", methods=["GET"])
 def mine():
-    return "Mine a new block"
+    # Run the proof of work algorithm
+    last_block = current_app.blockchain.last_block
+    last_proof = last_block["proof"]
+    proof = current_app.blockchain.proof_of_work(last_proof)
+
+    current_app.blockchain.new_transaction(
+        sender="0",
+        recipient=current_app.node_identifier,
+        amount=1
+    )
+
+    #Add new block to the chain
+    previous_hash = current_app.blockchain.hash(last_block)
+    block = current_app.blockchain.new_block(proof, previous_hash)
+
+    response = {
+        "message": "New Block Forged",
+        "index": block["index"],
+        "transactions": block["transactions"],
+        "proof": block["proof"],
+        "previous_hash": block["previous_hash"]
+    }
+
+    return response, 200
 
 
 @transactions_bp.route("/new", methods=["POST"])

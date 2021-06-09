@@ -3,6 +3,7 @@ from flask import Blueprint, current_app, request
 mine_bp = Blueprint("mine", __name__, url_prefix="/mine")
 transactions_bp = Blueprint("transactions", __name__, url_prefix="/transactions")
 chain_bp = Blueprint("chain", __name__, url_prefix="/chain")
+nodes_bp = Blueprint("nodes", __name__, url_prefix="/nodes")
 
 
 @mine_bp.route("/", methods=["GET"])
@@ -60,3 +61,7 @@ def full_chain():
         "length": len(current_app.blockchain.chain),
     }
     return response, 200
+
+
+def register_node():
+    pass

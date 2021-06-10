@@ -63,5 +63,11 @@ def full_chain():
     return response, 200
 
 
+@nodes_bp.route("/register", methods=["POST"])
 def register_node():
+    pass
+
+
+@nodes_bp.route("/resolve", methods=["GET"])
+def consensus():
     pass
